@@ -1,0 +1,97 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #cce2eb;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto', sans-serif;
+}
+
+form {
+    margin-top: 1rem;
+    display: flex;
+    gap: 1rem;
+}
+
+form input {
+    flex: 1;
+    border-radius: 999px;
+    padding: 0.5rem 1.25rem;
+    border: 1px solid #dce4ec;
+    outline: none;
+    -webkit-transition: border 0.2s;
+    transition: border 0.2s;
+}
+
+form input[type=text]:focus {
+    border: 3px solid #237390;
+}
+
+form button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background-color: #237390;
+    color: #fff;
+    cursor: pointer;
+    -webkit-transition: background-color 0.3s;
+    transition: background-color 0.3s;
+}
+
+form button:hover {
+    background-color: #206882;
+}
+
+h2 {
+    margin-bottom: 0.625rem;
+    color: rgb(4, 6, 7);
+}
+
+#todos {
+    background-color: #fff;
+    width: min(450px, 95%);
+    padding: 1.25rem;
+    box-shadow: 0 25px 50px rgba(8, 21, 66, .06);
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+}
+
+.todo {
+    border: 1px solid #dce4ec;
+    padding: 1.25rem;
+    margin-bottom: -1px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.todo:last-child {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.fa-trash {
+    color: #237390;
+    cursor: pointer;
+    -webkit-transition: color 0.3s;
+    transition: color 0.3s;
+}
+
+.fa-trash:hover {
+    color: #206882;
+}
