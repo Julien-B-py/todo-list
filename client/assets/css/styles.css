@@ -61,7 +61,7 @@ h2 {
     background-color: #fff;
     width: min(450px, 95%);
     padding: 1.25rem;
-    box-shadow: 0 25px 50px rgba(8, 21, 66, .06);
+    box-shadow: 0 4px 13px -3px rgb(0 0 0 / 10%);
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -94,4 +94,8 @@ h2 {
 
 .fa-trash:hover {
     color: #206882;
+}
+
+.error {
+    color: #f20b1e;
 }

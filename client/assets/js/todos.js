@@ -1,5 +1,9 @@
-let form = document.querySelector("form");
-let addButton = document.querySelector("button");
+const form = document.querySelector("form");
+const input = document.querySelector("input");
+
+const addButton = document.querySelector("button");
+
+const section = document.querySelector("section");
 
 let todos = [];
 
@@ -7,7 +11,6 @@ addButton.addEventListener("click", function (event) {
 
     event.preventDefault();
 
-    let input = document.querySelector("input");
     const todo = input.value;
 
     var myHeaders = new Headers();
@@ -26,16 +29,28 @@ addButton.addEventListener("click", function (event) {
     fetch("http://localhost:8001/addTodo.php", requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(result)
+            // console.log(result)
             fetchTodos();
             // clear input field and set focus
             input.value = "";
             input.focus();
         })
-        .catch(error => console.log('error', error));
+        .catch(error => {
+            // console.log('error', error);
+            displayError();
+        });
 
 
 });
+
+
+const displayError = () => {
+    var newDiv = document.createElement("div");
+    newDiv.classList.add("error");
+    var newContent = document.createTextNode("Error when attempting to fetch resource.");
+    newDiv.appendChild(newContent);
+    section.insertBefore(newDiv, form);
+}
 
 
 
@@ -62,7 +77,11 @@ const fetchTodos = () => {
             displayTodos();
 
         })
-        .catch(error => console.log('error', error));
+        .catch(error => {
+            // console.log('error', error);
+            displayError();
+
+        });
 }
 
 
@@ -85,8 +104,7 @@ const deleteTodo = async (data) => {
     fetch("http://localhost:8001/deleteTodo.php", requestOptions)
         .then(response => response.text())
         .then(result => {
-            console.log(result);
-
+            // console.log(result);
             fetchTodos();
 
         })
@@ -101,8 +119,6 @@ fetchTodos();
 
 
 const displayTodos = () => {
-
-    const section = document.querySelector("section");
 
     todos.forEach(todo => {
         let newDiv = document.createElement("div");
