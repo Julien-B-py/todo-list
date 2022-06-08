@@ -44,10 +44,17 @@
 
 
     <section id="todos">
-      <h2>Category</h2>
-      <select name="category" id="categories">
+      <div class="todos__top">
+        <h2>Category</h2>
 
-      </select>
+        <select name="category" id="categories">
+
+        </select>
+      </div>
+
+      <div class="todos__inner">
+
+      </div>
 
       <form>
         <input type="text" name="todo" />
@@ -58,7 +65,9 @@
     </section>
   </main>
 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.3/moment.min.js"></script>
   <script src="./assets/js/constants.js"></script>
+  <script src="./assets/js/status.js"></script>
   <script src="./assets/js/todos.js"></script>
   <script src="./assets/js/categories.js"></script>
 </body>

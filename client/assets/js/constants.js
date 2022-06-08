@@ -1,5 +1,7 @@
 const sel = document.querySelector("select");
 
+const h2 = document.querySelector("h2");
+
 const form = document.querySelector("form");
 
 const inputs = document.querySelectorAll("input");

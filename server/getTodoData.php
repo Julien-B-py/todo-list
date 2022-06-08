@@ -18,7 +18,10 @@ $todoId = $_GET["ref"];
 
 
 
-$preparedRequest = $bdd->prepare("SELECT * FROM todos t INNER JOIN categories c ON c.category_id = t.categoryid WHERE todo_ref = :ref");
+// $preparedRequest = $bdd->prepare("SELECT * FROM todos t INNER JOIN categories c ON c.category_id = t.categoryid WHERE todo_ref = :ref");
+
+
+$preparedRequest = $bdd->prepare("SELECT * FROM todos t INNER JOIN categories c ON c.category_id = t.categoryid INNER JOIN status ON status.status_id = t.statusid WHERE todo_ref = :ref");
 
 $preparedRequest->bindValue(":ref", $todoId, PDO::PARAM_STR);
 

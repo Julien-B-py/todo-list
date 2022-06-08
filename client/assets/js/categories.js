@@ -48,6 +48,10 @@ const fetchCategories = () => {
         .then(result => {
             const data = JSON.parse(result);
             categories = [];
+            // let option = document.createElement("option");
+            // option.value = 0;
+            // option.text = "All";
+            // sel.add(option, null);
             data.forEach(item => {
                 let option = document.createElement("option");
                 option.value = item.category_id;
@@ -58,6 +62,10 @@ const fetchCategories = () => {
         })
         .catch(error => console.log('error', error));
 }
+
+
+
+
 
 
 fetchCategories();
