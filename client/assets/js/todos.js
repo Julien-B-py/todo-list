@@ -1,16 +1,6 @@
 //archiver les anciens todo
 
-const form = document.querySelector("form");
 
-const inputs = document.querySelectorAll("input");
-const categoryInput = inputs[0];
-const input = inputs[1];
-
-const buttons = document.querySelectorAll("button");
-const addCategoryButton = buttons[0];
-const addButton = buttons[1];
-
-const section = document.querySelector("section");
 
 let selectedTodoId = "";
 
@@ -22,12 +12,14 @@ addButton.addEventListener("click", function (event) {
   event.preventDefault();
 
   const todo = input.value;
+  const category = sel.value;
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
   var urlencoded = new URLSearchParams();
   urlencoded.append("todo", todo);
+  urlencoded.append("category", category);
 
   var requestOptions = {
     method: "POST",
@@ -121,13 +113,13 @@ const displayTodos = () => {
   todos.forEach((todo) => {
     let newDiv = document.createElement("div");
     newDiv.classList.add("todo");
-    newDiv.dataset.ref = todo.ref;
+    newDiv.dataset.ref = todo.todo_ref;
 
-    let newContent = document.createTextNode(todo.task);
+    let newContent = document.createTextNode(todo.todo_desc);
 
     let deleteButton = document.createElement("i");
     deleteButton.classList.add("fa-solid", "fa-trash");
-    deleteButton.dataset.ref = todo.ref;
+    deleteButton.dataset.ref = todo.todo_ref;
 
     newDiv.appendChild(newContent);
     newDiv.appendChild(deleteButton);
@@ -196,16 +188,41 @@ const displayTodoData = (data) => {
   input.type = "text";
   input.name = "todo";
   input.id = "description";
-  input.value = data.task;
+  input.value = data.todo_desc;
 
-  var label2 = document.createElement("label");
-  label2.setAttribute("for", "category");
-  label2.textContent = "Category";
-  var input2 = document.createElement("input");
-  input2.type = "text";
-  input2.name = "todo";
-  input2.id = "category";
-  input2.value = data.category;
+  // var label2 = document.createElement("label");
+  // label2.setAttribute("for", "category");
+  // label2.textContent = "Category";
+  // var input2 = document.createElement("input");
+  // input2.type = "text";
+  // input2.name = "todo";
+  // input2.id = "category";
+  // input2.value = data.category_name;
+
+
+  var catSelect = document.createElement("select");
+  categories.forEach(item => {
+    let option = document.createElement("option");
+    option.value = item.category_id;
+    option.text = item.category_name;
+
+    // Auto select the saved option
+    if (data.category_name === item.category_name) {
+      option.selected = true;
+    }
+
+    catSelect.add(option, null);
+  });
+
+
+  var label3 = document.createElement("label");
+  label3.setAttribute("for", "tags");
+  label3.textContent = "Tags";
+  var input3 = document.createElement("input");
+  input3.type = "text";
+  input3.name = "tags";
+  input3.id = "tags";
+  input3.value = data.tags;
 
   const closeBtn = document.createElement("button");
   closeBtn.classList.add("close__btn");
@@ -224,8 +241,11 @@ const displayTodoData = (data) => {
   newDiv.appendChild(h2);
   newDiv.appendChild(label);
   newDiv.appendChild(input);
-  newDiv.appendChild(label2);
-  newDiv.appendChild(input2);
+  // newDiv.appendChild(label2);
+  // newDiv.appendChild(input2);
+  newDiv.appendChild(catSelect);
+  newDiv.appendChild(label3);
+  newDiv.appendChild(input3);
   newDiv.appendChild(closeBtn);
   newDiv.appendChild(confirmBtn);
   document.querySelector("main").appendChild(newDiv);
@@ -237,7 +257,7 @@ const displayTodoData = (data) => {
   };
 
   confirmBtn.onclick = () => {
-    updateTodo({ todo: input.value, id: selectedTodoId });
+    updateTodo({ todo: input.value, id: selectedTodoId, category: catSelect.value });
   };
 };
 
@@ -245,9 +265,12 @@ const updateTodo = (value) => {
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
 
+  console.log(value);
+
   var urlencoded = new URLSearchParams();
   urlencoded.append("todo", value.todo);
   urlencoded.append("id", value.id);
+  urlencoded.append("category", value.category);
 
   var requestOptions = {
     method: "POST",
@@ -259,7 +282,7 @@ const updateTodo = (value) => {
   fetch("http://localhost:8001/updateTodo.php", requestOptions)
     .then((response) => response.text())
     .then((result) => {
-      console.log(result);
+      // console.log(result);
       fetchTodos();
       document.querySelector(".todo__details").remove();
     })

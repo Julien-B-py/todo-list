@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
     $bdd = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
     // Query
-    $preparedRequest = $bdd->prepare("DELETE FROM `todos` WHERE ref = :ref");;
+    $preparedRequest = $bdd->prepare("DELETE FROM `todos` WHERE todo_ref = :ref");;
 
     $preparedRequest->bindValue(":ref", $todoId, PDO::PARAM_STR);
 

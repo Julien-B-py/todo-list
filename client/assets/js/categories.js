@@ -1,6 +1,6 @@
 categoryInput.value = "";
 
-let sel = document.querySelector("select");
+let categories = [];
 
 addCategoryButton.addEventListener("click", function (event) {
 
@@ -47,11 +47,13 @@ const fetchCategories = () => {
         .then(response => response.text())
         .then(result => {
             const data = JSON.parse(result);
+            categories = [];
             data.forEach(item => {
                 let option = document.createElement("option");
-                option.value = item.name;
-                option.text = item.name;
+                option.value = item.category_id;
+                option.text = item.category_name;
                 sel.add(option, null);
+                categories.push(item);
             });
         })
         .catch(error => console.log('error', error));

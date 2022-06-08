@@ -13,6 +13,9 @@ try {
 // Query
 $preparedRequest = $bdd->prepare("SELECT * FROM todos");
 
+// $preparedRequest = $bdd->prepare("SELECT * FROM todos t INNER JOIN categories c ON c.category_id = t.categoryid");
+
+
 $preparedRequest->execute();
 
 // PDO::FETCH_ASSOC: returns an array indexed by column name as returned in your result set

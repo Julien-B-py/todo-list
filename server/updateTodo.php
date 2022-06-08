@@ -7,6 +7,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $todo = htmlspecialchars($_POST["todo"]);
     $todoId = htmlspecialchars($_POST["id"]);
+    $todoCategory = htmlspecialchars($_POST["category"]);
 
     // echo $todo;
     // echo $todoId;
@@ -22,10 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Query
     // $preparedRequest = $bdd->prepare("INSERT INTO `todos` (`id`, `task`, `ref`) VALUES (NULL, :todo, :ref)");
-    $preparedRequest = $bdd->prepare("UPDATE `todos` SET `task` = :todo WHERE `ref` = :id");
+    // $preparedRequest = $bdd->prepare("UPDATE `todos` SET `todo_desc` = :todo WHERE `todo_ref` = :id");
+    $preparedRequest = $bdd->prepare("UPDATE `todos` SET `todo_desc` = :todo, `categoryid` = :cat  WHERE `todo_ref` = :id");
 
     $preparedRequest->bindValue(":todo", $todo, PDO::PARAM_STR);
     $preparedRequest->bindValue(":id", $todoId, PDO::PARAM_STR);
+    $preparedRequest->bindValue(":cat", $todoCategory, PDO::PARAM_INT);
 
     $result = $preparedRequest->execute();
 

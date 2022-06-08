@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $bdd = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
     // Query
-    $preparedRequest = $bdd->prepare("INSERT INTO `categories` (`id`, `name`) VALUES (NULL, :category)");
+    $preparedRequest = $bdd->prepare("INSERT INTO `categories` (`category_id`, `category_name`) VALUES (NULL, :category)");
 
     $preparedRequest->bindValue(":category", $todo, PDO::PARAM_STR);
 
