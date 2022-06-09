@@ -1,19 +1,25 @@
 //archiver les anciens todo
 
-
-
 let selectedTodoId = "";
 
 let todos = [];
 let filteredTodos = [];
 
-input.value = "";
+const initAddTodoForm = () => {
+  addTodoInput.value = "";
+  addTodoInput.focus();
+  addButton.setAttribute("disabled", "");
+  addButton.style.border = "1px solid #dce4ec";
+  addButton.style.backgroundColor = "#e6e6e6";
+};
+
+initAddTodoForm();
 
 addButton.addEventListener("click", function (event) {
   event.preventDefault();
 
-  const todo = input.value;
-  const category = sel.value;
+  const todo = addTodoInput.value;
+  const category = todoCatSelect.value;
 
   var myHeaders = new Headers();
   myHeaders.append("Content-Type", "application/x-www-form-urlencoded");
@@ -35,11 +41,7 @@ addButton.addEventListener("click", function (event) {
       // console.log(result)
       fetchTodos();
       // clear input field and set focus
-      input.value = "";
-      input.focus();
-      addButton.setAttribute('disabled', '');
-      addButton.style.border = "1px solid #dce4ec";
-      addButton.style.backgroundColor = "#e6e6e6";
+      initAddTodoForm();
     })
     .catch((error) => {
       // console.log('error', error);
@@ -54,7 +56,7 @@ const displayError = () => {
     "Error when attempting to fetch resource."
   );
   newDiv.appendChild(newContent);
-  section.insertBefore(newDiv, form);
+  section.insertBefore(newDiv, addTodoForm);
 };
 
 const fetchTodos = () => {
@@ -78,7 +80,6 @@ const fetchTodos = () => {
       filteredTodos = [...todos];
 
       displayTodos();
-
     })
     .catch((error) => {
       // console.log('error', error);
@@ -110,8 +111,6 @@ const deleteTodo = async (data) => {
     .catch((error) => console.log("error", error));
 };
 
-
-
 const checkTodo = async (data, checked) => {
   // Postman
   var myHeaders = new Headers();
@@ -122,31 +121,26 @@ const checkTodo = async (data, checked) => {
   urlencoded.append("status", checked);
 
   var requestOptions = {
-    method: 'POST',
+    method: "POST",
     headers: myHeaders,
     body: urlencoded,
-    redirect: 'follow'
+    redirect: "follow",
   };
 
   fetch("http://localhost:8001/checkTodo.php", requestOptions)
-    .then(response => response.text())
-    .then(result => {
+    .then((response) => response.text())
+    .then((result) => {
       console.log(result);
       fetchTodos();
     })
-    .catch(error => console.log('error', error));
-
-
+    .catch((error) => console.log("error", error));
 };
-
-
 
 fetchTodos();
 
 const displayTodos = () => {
-
   if (document.querySelectorAll(".todo").length > 0) {
-    document.querySelectorAll(".todo").forEach(e => e.remove());
+    document.querySelectorAll(".todo").forEach((e) => e.remove());
   }
 
   todos.forEach((todo) => {
@@ -160,19 +154,16 @@ const displayTodos = () => {
 
     let circle = document.createElement("i");
 
-    let span = document.createElement('span');
+    let span = document.createElement("span");
     let newContent = document.createTextNode(todo.todo_desc);
     span.appendChild(newContent);
     // check if todo status is completed
     if (todo.statusid === 1) {
       circle.classList.add("fa-solid", "fa-circle-check", "checkbox");
       span.classList.add("completed");
-    }
-    else {
+    } else {
       circle.classList.add("fa-solid", "fa-circle", "checkbox");
     }
-
-
 
     let deleteButton = document.createElement("i");
     deleteButton.classList.add("fa-solid", "fa-trash");
@@ -195,10 +186,9 @@ const displayTodos = () => {
 
       const uuid = e.target.dataset.ref;
 
-      console.log(e.target.dataset.ref)
+      console.log(e.target.dataset.ref);
 
       deleteTodo(uuid);
-
     })
   );
 
@@ -215,7 +205,6 @@ const displayTodos = () => {
       const checked = e.target.classList.contains("fa-circle-check");
 
       checkTodo(uuid, checked);
-
     })
   );
 
@@ -223,13 +212,12 @@ const displayTodos = () => {
 
   existingTodos.forEach(
     (todo) =>
-    (todo.onclick = (e) => {
+      (todo.onclick = (e) => {
+        const parentDiv = e.target.closest(".todo");
+        const uuid = parentDiv.dataset.ref;
 
-      const parentDiv = e.target.closest(".todo");
-      const uuid = parentDiv.dataset.ref;
-
-      getTodoData(uuid);
-    })
+        getTodoData(uuid);
+      })
   );
 };
 
@@ -289,7 +277,7 @@ const displayTodoData = (data) => {
 
   var catSelect = document.createElement("select");
   catSelect.id = "category";
-  categories.forEach(item => {
+  categories.forEach((item) => {
     let option = document.createElement("option");
     option.value = item.category_id;
     option.text = item.category_name;
@@ -304,7 +292,7 @@ const displayTodoData = (data) => {
 
   var statusSelect = document.createElement("select");
   statusSelect.id = "status";
-  todosStatus.forEach(item => {
+  todosStatus.forEach((item) => {
     let option = document.createElement("option");
     option.value = item.status_id;
     option.text = item.status_name;
@@ -328,10 +316,11 @@ const displayTodoData = (data) => {
 
   var label5 = document.createElement("label");
   label5.textContent = "Date created";
-  let span = document.createElement('span');
-  let newContent = document.createTextNode(moment(data.todo_creation).format('MMMM Do YYYY'));
+  let span = document.createElement("span");
+  let newContent = document.createTextNode(
+    moment(data.todo_creation).format("MMMM Do YYYY")
+  );
   span.appendChild(newContent);
-
 
   const closeBtn = document.createElement("button");
   closeBtn.classList.add("close__btn");
@@ -370,7 +359,12 @@ const displayTodoData = (data) => {
   };
 
   confirmBtn.onclick = () => {
-    updateTodo({ todo: input.value, id: selectedTodoId, category: catSelect.value, status: statusSelect.value });
+    updateTodo({
+      todo: input.value,
+      id: selectedTodoId,
+      category: catSelect.value,
+      status: statusSelect.value,
+    });
   };
 };
 
@@ -403,49 +397,41 @@ const updateTodo = (value) => {
     .catch((error) => console.log("error", error));
 };
 
-
 // Detect input
-input.addEventListener("input", (event) => {
+addTodoInput.addEventListener("input", (event) => {
   if (event.target.value.length === 0) {
-    addButton.setAttribute('disabled', '');
+    addButton.setAttribute("disabled", "");
     addButton.style.border = "1px solid #dce4ec";
     addButton.style.backgroundColor = "#e6e6e6";
     return;
   }
-  addButton.removeAttribute('disabled');
-  addButton.style.removeProperty('border');
-  addButton.style.removeProperty('background-color');
+  addButton.removeAttribute("disabled");
+  addButton.style.removeProperty("border");
+  addButton.style.removeProperty("background-color");
 });
 
-
-
 const filterTodos = () => {
-
   // filteredTodos.forEach(todo => {
   //   console.log(todo.categoryid === Number(sel.value));
   // })
 
-  h2.textContent = sel.options[sel.selectedIndex].text;
+  h2.textContent = todoCatSelect.options[todoCatSelect.selectedIndex].text;
 
-  if (Number(sel.value) === 0) {
+  if (Number(todoCatSelect.value) === 0) {
     todos = [...filteredTodos];
   } else {
-    todos = filteredTodos.filter(todo => todo.categoryid === Number(sel.value));
+    todos = filteredTodos.filter(
+      (todo) => todo.categoryid === Number(todoCatSelect.value)
+    );
   }
-
 
   displayTodos();
   // console.log(test);
-}
+};
 
-
-
-sel.onchange = () => {
+todoCatSelect.onchange = () => {
   filterTodos();
   if (document.querySelector(".todo__details")) {
     document.querySelector(".todo__details").remove();
   }
-
-}
-
-
+};

@@ -51,12 +51,12 @@ const fetchCategories = () => {
             // let option = document.createElement("option");
             // option.value = 0;
             // option.text = "All";
-            // sel.add(option, null);
+            // todoCatSelect.add(option, null);
             data.forEach(item => {
                 let option = document.createElement("option");
                 option.value = item.category_id;
                 option.text = item.category_name;
-                sel.add(option, null);
+                todoCatSelect.add(option, null);
                 categories.push(item);
             });
         })

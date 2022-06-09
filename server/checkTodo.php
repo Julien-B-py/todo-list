@@ -2,24 +2,18 @@
 
 header("Access-Control-Allow-Origin: *");
 
+require_once './connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-
     $todoId = htmlspecialchars($_POST["id"]);
     $todoStatus = htmlspecialchars($_POST["status"]);
-
-
-
-
 
     if ($todoStatus === "false") {
         $todoStatus = 1;
     } else {
         $todoStatus = 2;
     }
-
-    $bdd = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
     // Query
     $preparedRequest = $bdd->prepare("UPDATE `todos` SET `statusid` = :stats  WHERE `todo_ref` = :id");

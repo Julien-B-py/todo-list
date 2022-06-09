@@ -2,6 +2,7 @@
 
 header("Access-Control-Allow-Origin: *");
 
+require_once './connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
@@ -10,21 +11,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $todoCategory = htmlspecialchars($_POST["category"]);
     $todoStatus = htmlspecialchars($_POST["status"]);
 
-    // echo $todo;
-    // echo $todoId;
-
-
-
-    // UPDATE `todos` SET `task` = 'fzfafa' WHERE `todos`.`id` = 7
-
-
-
-
-    $bdd = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
-
     // Query
-    // $preparedRequest = $bdd->prepare("INSERT INTO `todos` (`id`, `task`, `ref`) VALUES (NULL, :todo, :ref)");
-    // $preparedRequest = $bdd->prepare("UPDATE `todos` SET `todo_desc` = :todo WHERE `todo_ref` = :id");
     $preparedRequest = $bdd->prepare("UPDATE `todos` SET `todo_desc` = :todo, `categoryid` = :cat, `statusid` = :stat  WHERE `todo_ref` = :id");
 
     $preparedRequest->bindValue(":todo", $todo, PDO::PARAM_STR);

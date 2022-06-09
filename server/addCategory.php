@@ -2,11 +2,11 @@
 
 header("Access-Control-Allow-Origin: *");
 
+require_once './connection.php';
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $todo = htmlspecialchars($_POST["category"]);
-
-    $bdd = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
     // Query
     $preparedRequest = $bdd->prepare("INSERT INTO `categories` (`category_id`, `category_name`) VALUES (NULL, :category)");

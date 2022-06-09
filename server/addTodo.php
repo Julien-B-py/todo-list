@@ -3,19 +3,14 @@
 header("Access-Control-Allow-Origin: *");
 
 require_once "./guidv4.php";
-
+require_once './connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     $todo = htmlspecialchars($_POST["todo"]);
     $category = htmlspecialchars($_POST["category"]);
 
-
-
     $uuid = guidv4();
-
-
-    $bdd = new PDO("mysql:host=localhost;dbname=todolist", "root", "");
 
     // Query
     $preparedRequest = $bdd->prepare("INSERT INTO `todos` (`todo_id`, `todo_desc`, `todo_ref`, `categoryid`, `statusid`, `todo_creation`) VALUES (NULL, :todo, :ref, :categoryId, 2, CURRENT_TIMESTAMP)");
